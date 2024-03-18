@@ -1,38 +1,30 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"	 ______   ______     __  __     __  __      					"
-"	/\__  _\ /\  == \   /\ \/\ \   /\_\_\_\     					"
-"	\/_/\ \/ \ \  __<   \ \ \_\ \  \/_/\_\/_    					"
-"	   \ \_\  \ \_\ \_\  \ \_____\   /\_\/\_\   					"
-"		\/_/   \/_/ /_/   \/_____/   \/_/\/_/   					"
-"																	"
-"			   __   __   __     __    __     ______     ______      "
-"			  /\ \ / /  /\ \   /\ \-./  \   /\  == \   /\  ___\     "
-"			  \ \ \'/   \ \ \  \ \ \-./\ \  \ \  __<   \ \ \____    "
-"		/\_\   \ \__|    \ \_\  \ \_\ \ \_\  \ \_\ \_\  \ \_____\   "
-"		\/_/    \/_/      \/_/   \/_/  \/_/   \/_/ /_/   \/_____/   "
-"																	"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Trux's .vimrc file
 
-" Welcome to my .vimrc ! It's still a work in progress, I tried to
-" make it easy to understand.
-" There are :   General settings / Identation / Completion
-"				Explorer / Plugins / Theme / Statusbar
-"																Trux
-
-"		GENERAL SETTINGS
-""""""""""""""""""""""""""""""""""""""""
 syntax on
 set number
 set mouse=a
-set nopaste
+set paste
 set noshowmode
 set showcmd
 set cursorline
 set scrolloff=5		" keep x lines above / before cursor
 set showmatch		" show matching (){}[]
-" Clipboard=unnamedplus : Yank to system clipboard with "+y
+""Clipboard=unnamedplus : Yank to system clipboard with "+y
 " and Paste from it with "+p if vim --version got +clipboard or +xtermclipboard
 set clipboard=unnamedplus
+
+
+set incsearch
+" enable line wrapping
+set wrap
+" avoid wrapping a line in the middle of a word
+set linebreak
+
+set background=dark
+set splitbelow
+set splitright
+
+
 
 "	Indentation
 """"""""""""""""""""""""""""""""""""""""
@@ -96,7 +88,7 @@ nnoremap <space><down> <C-w><down>
 nnoremap <space><up> <C-w><up>
 nnoremap <space><space> <C-w>w
 
-"kj to do Escape"
+"kj to do Escape
 inoremap kj <esc>
 "jk to do Enter
 inoremap jk <CR>
@@ -104,6 +96,12 @@ cnoremap jk <CR>
 
 nnoremap <space>c :
 
+
+" Disabling arrows
+map <Left> <nop>
+map <Right> <nop>
+map <Up> <nop>
+map <Down> <nop>
 map VS <space>e <space>t <space><space>
 
 
@@ -118,49 +116,10 @@ let g:netrw_banner = 0"No Banner
 let g:netrw_browse_split = 4
 let g:netrw_list_hide = '^\..*/$' "Hide .directories/
 let g:netrw_hide = 1
-"let 
 
-" Make explorer netrw close if alone
-"aug netrw_close
-"  au!
-"    au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
-"    aug END
-
-"""" GOOD LINE FOR AUTO EXPLORER CLOSE WHEN LAST WINDOW
-" Automatically close the netrw explorer if it's the only window left
-"autocmd BufEnter * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
 
 " Close the netrw explorer if all its buffers are deleted
 autocmd BufDelete * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
-
-""Custom Ex Commands :
-"""""""""""""""""""""""""""""""""""""""""
-"set splitbelow
-""set termwinsize=25
-""command Vscode :Vex :Hex
-"" wid = win_getit() " => set focus where you want
-""autocmd VimEnter * let wid = win_getid()
-"" call win_gotoid(wid) " => to go back to that focus
-""autocmd VimEnter * call win_gotoid(wid)
-"
-"autocmd VimEnter * let wid = win_getid()
-"autocmd VimEnter * Vex
-"autocmd VimEnter * call win_gotoid(wid)
-"
-""autocmd VimEnter * let wid = win_getid()
-"set termwinsize=10*0  ""row*colomn, will be size of window or at least that.
-""autocmd VimEnter * terminal
-""autocmd VimEnter * call win_gotoid(wid)
-"
-"""" Tentative d'ouverture de l'explorer on a new tab
-""autocmd TabNew * let wid = win_getid()
-"autocmd TabNew * Vex
-"autocmd TabNew * wincmd r
-""" Used to resize 
-"autocmd TabNew * exec 'vertical resize '. string(&columns * 0.80)
-"
-""autocmd VimEnter * wincmd k " to do a CTRL-W k 
-
 
 
 "		PLUGINS SECTION
@@ -187,9 +146,6 @@ call plug#end()
 "	Color Theme
 """"""""""""""""""""""""""""""""""""""""
 colorscheme palenight
-"set termguicolors
-"let ayucolor="mirage" "dark
-"colorscheme ayu
 
 "	Syntastic Settings
 """"""""""""""""""""""""""""""""""""""""
@@ -214,12 +170,6 @@ let g:lightline = {
 	\ }
 	\ }
 
-"	Read manual from vim
-""""""""""""""""""""""""""""""""""""""""
-"	Paste next line to terminal once (or in .bashrc)
-" vman() { vim -c "Man $1 $2" -c 'silent only' }
-
-
 "abbreviation !! 
 abbr _sh #!/bin/bash
 
@@ -227,20 +177,3 @@ au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml "foldmethod=indent
 ""autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab}
 autocmd FileType yaml setlocal ai et ts=2 sw=2 cuc cul
 
-
-
-" NEW SECTION trux 21/04/2023
-
-" Search incrementally
-set incsearch
-" enable line wrapping
-set wrap
-" avoid wrapping a line in the middle of a word
-set linebreak
-
-set background=dark
-
-colorscheme palenight
-
-set splitbelow
-set splitright
