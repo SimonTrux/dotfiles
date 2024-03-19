@@ -1,30 +1,29 @@
-" Trux's .vimrc file
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Trux .vimrc
+"		GENERAL SETTINGS
+""""""""""""""""""""""""""""""""""""""""
 syntax on
 set number
 set mouse=a
-set paste
+set nopaste
 set noshowmode
 set showcmd
 set cursorline
+"set cursorcolumn
 set scrolloff=5		" keep x lines above / before cursor
 set showmatch		" show matching (){}[]
-""Clipboard=unnamedplus : Yank to system clipboard with "+y
+" Clipboard=unnamedplus : Yank to system clipboard with "+y
 " and Paste from it with "+p if vim --version got +clipboard or +xtermclipboard
 set clipboard=unnamedplus
 
-
+" Search incrementally
 set incsearch
 " enable line wrapping
 set wrap
 " avoid wrapping a line in the middle of a word
 set linebreak
-
-set background=dark
 set splitbelow
 set splitright
-
-
 
 "	Indentation
 """"""""""""""""""""""""""""""""""""""""
@@ -51,9 +50,8 @@ inoremap " ""<Left>
 inoremap ` ``<Left>
 inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
 
-
-" Function that toggle on and of the left side explorer
-" by pressing CTRL + e
+" Left side explorer by pressing CTRL or space + e
+""""""""""""""""""""""""""""""""""""""""
 function! ToggleExplorer()
     " Check if the explorer is currently open
     if exists("g:explorer_is_open") && g:explorer_is_open
@@ -71,43 +69,36 @@ function! ToggleExplorer()
 endfunction
 
 " Map a key to toggle the explorer window
+nnoremap <silent> <C-e> :call ToggleExplorer()<CR>
+nnoremap <silent> <space>e :call ToggleExplorer()<CR>
+
+" Terminal toggle with CTRL or space + t
 map <C-t> :terminal <CR>
 map <space>t :terminal <CR>
-
 tnoremap <C-t> exit<CR>
 tnoremap <space>t exit<CR>
 tnoremap <space><space> <C-w>w
-"tnoremap <C-t> :call ToggleTerminal()<CR>
 
-
-nnoremap <silent> <C-e> :call ToggleExplorer()<CR>
-nnoremap <silent> <space>e :call ToggleExplorer()<CR>
+" Windows movements with space"
 nnoremap <space><right> <C-w><right>
 nnoremap <space><left> <C-w><left>
 nnoremap <space><down> <C-w><down>
 nnoremap <space><up> <C-w><up>
 nnoremap <space><space> <C-w>w
 
-"kj to do Escape
+"kj to do Escape"
 inoremap kj <esc>
 "jk to do Enter
 inoremap jk <CR>
 cnoremap jk <CR>
+tnoremap jk <CR>
 
 nnoremap <space>c :
 
 
-" Disabling arrows
-map <Left> <nop>
-map <Right> <nop>
-map <Up> <nop>
-map <Down> <nop>
-map VS <space>e <space>t <space><space>
-
-
 set termwinsize=10*0  ""row*colomn, will be size of window or at least that.Aazjhhj
 
-"Custom Explorer with :Vex
+"Custom Explorer attributes
 """"""""""""""""""""""""""""""""""""""""
 let g:netrw_winsize = 20"Vex will be 25% window size
 let g:netrw_liststyle = 3"Tree style display
@@ -118,9 +109,12 @@ let g:netrw_list_hide = '^\..*/$' "Hide .directories/
 let g:netrw_hide = 1
 
 
-" Close the netrw explorer if all its buffers are deleted
-autocmd BufDelete * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
+" Automatically close the netrw explorer if it's the only window left
+"autocmd BufEnter * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
 
+"""" GOOD LINE FOR AUTO EXPLORER CLOSE WHEN LAST WINDOW
+" Close the netrw explorer if all its buffers are deleted
+"autocmd BufDelete * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
 
 "		PLUGINS SECTION
 """"""""""""""""""""""""""""""""""""""""
@@ -131,33 +125,30 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 	echo "Installing VimPlug..."
 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	autocmd VimEnter * PlugInstall
-endif 
+endif
 
 "	Plugins List
 """"""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'vim-utils/vim-man'				"View Manual in vim
 Plug 'drewtempelmeyer/palenight.vim'	"Palenight theme
-"Plug 'ayu-theme/ayu-vim'
 Plug 'itchyny/lightline.vim'
-Plug 'vim-syntastic/syntastic'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
 call plug#end()
+
+" Mappings for asyncomplete on tabs"
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 "	Color Theme
 """"""""""""""""""""""""""""""""""""""""
 colorscheme palenight
-
-"	Syntastic Settings
-""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_sh_checkers = ['shellcheck', 'sh']
+set background=dark
 
 
 "	Status Line
@@ -170,10 +161,11 @@ let g:lightline = {
 	\ }
 	\ }
 
+
 "abbreviation !! 
 abbr _sh #!/bin/bash
 
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml "foldmethod=indent
-""autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab}
-autocmd FileType yaml setlocal ai et ts=2 sw=2 cuc cul
+"au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml "foldmethod=indent
+"""autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab}
+"autocmd FileType yaml setlocal ai et ts=2 sw=2 cuc cul
 
