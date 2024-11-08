@@ -1,0 +1,15 @@
+# .bashrc
+
+alias so="source ~/.bashrc"
+
+alias la="ls -la"
+alias lt="ls -lat"
+
+# Edit config files by name right away
+alias vimrc="vim ~/.vimrc"
+alias gitconfig="vim ~/.gitconfig"
+alias tmux.conf="vim ~/.tmux.conf"
+
+alias bashrc="vim ~/.bashrc.d/own_bashrc"
+alias aliases="vim ~/.bashrc.d/own_aliases"
+

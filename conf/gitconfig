@@ -1,0 +1,6 @@
+[init]
+	defaultBranch = main
+[alias]
+	ls = log --oneline --graph
+	st = status
+	ss = status --short

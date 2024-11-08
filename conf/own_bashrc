@@ -1,0 +1,3 @@
+# .bashrc
+
+eval "$(fzf --bash)"
