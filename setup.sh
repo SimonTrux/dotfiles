@@ -1,6 +1,11 @@
 #!/bin/bash
 
 Help() {
+   echo "This script symlinks files in ./conf. You get : "
+	 echo " - Improved vim, tmux, git alias, a cleaner bash, a better cat (bat) "
+	 echo "   and fzf to find and prewiew anything with C-t or cmd **TAB "
+	 echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
+	 echo
    echo "Usage : ./setup.sh [-h -f]"
    echo "Options"
    echo "  -h  : display this help "
@@ -35,10 +40,12 @@ while getopts ${OPTIONS} option; do
 done
 
 echo "Making dir ~/.bashrc.d"
+echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
 mkdir -p ~/.bashrc.d
 
 echo
-echo "Now symlinking .vimrc .tmux.conf and .gitconfig file"
+echo "Now symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
+echo "You can live edit files in ./conf and reload with : $ so    (source ~/.bashrc)"
 
 #set -x
 ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc
