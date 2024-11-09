@@ -1,5 +1,17 @@
 # .bashrc
 
+## CUSTOM PS1 ##
+## Crafted with https://ezprompt.net/
+#export PS1="\[\e[32m\]\t\[\e[m\] [\[\e[33m\]\w\[\e[m\]] \[\e[32m\]\\$\[\e[m\] "
+
+function nonzero_return() {
+	RETVAL=$?
+	[ $RETVAL -ne 0 ] && echo "$RETVAL"
+}
+
+export PS1="\[\e[32m\]\t\[\e[m\] [\[\e[33m\]\w\[\e[m\]]\[\e[31m\]\`nonzero_return\`\[\e[m\] \[\e[32m\]\\$\[\e[m\] "
+
+## FZF SECTION ##
 eval "$(fzf --bash)"
 
 
@@ -24,3 +36,4 @@ _fzf_comprun() {
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
+
