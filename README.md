@@ -20,7 +20,7 @@ git clone git@github.com:SimonTrux/dotfiles.git ~/dotfiles
 
 ### Run install_pkgs.sh and setup.sh
 
-1 - Install packages
+1 - Install packages (git, vim, tmux, fzf, bat,)
 2 - symlink files in the `conf` directory to respective places in user home dir.
 
 ```
@@ -52,3 +52,12 @@ To remove one, run ":LspUninstallServer <server name>"
 
 - lsp files are in ~/.local/share/vim-lsp-settings/
 - vim plugins files are in ~/.vim/plugged
+
+### Next...
+
+Find and Install bat theme at ~/.config/bat/themes
+then to
+```
+bat cache --build
+bat --list-themes | fzf --preview="bat --theme{} --color=always setup.sh"
+```

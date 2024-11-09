@@ -1,7 +1,10 @@
 # .bashrc
 
+# utilities
 alias so="source ~/.bashrc"
+alias cat="bat"
 
+# ls
 alias la="ls -la"
 alias lt="ls -lat"
 

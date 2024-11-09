@@ -1,3 +1,26 @@
 # .bashrc
 
 eval "$(fzf --bash)"
+
+
+## Preview section with bat while using fzf with C-t or ** ##
+
+show_file_or_dir_preview="if [ -d {} ]; then ls -l --color {} | head -20; else bat -n --color=always --line-range :100 {}; fi"
+
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'ls -l --color {} | head -20'"
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'ls -l {} | head -20' "$@" ;;
+    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+  esac
+}
