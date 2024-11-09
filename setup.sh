@@ -59,3 +59,11 @@ ln -s $OPTS ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases
 echo "Sourcing ~/.bashrc"
 source ~/.bashrc
 
+# From https://github.com/catppuccin/gnome-terminal
+echo "Installing catppuccin themes for gnome-terminal."
+curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.3.0/install.py | python3 - 
+
+echo
+echo "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want."
+
+
