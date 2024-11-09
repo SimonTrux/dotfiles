@@ -1,4 +1,4 @@
-# .bashrc
+#.bashrc
 
 # utilities
 alias so="source ~/.bashrc"
