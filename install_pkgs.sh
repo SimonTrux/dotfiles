@@ -66,6 +66,5 @@ select choice in "yes" "no"; do
 	esac
 done
 
-
 set -x
 $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST

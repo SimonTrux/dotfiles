@@ -54,16 +54,35 @@ ln -s $OPTS ${CONF_PATH}/gitconfig ~/.gitconfig
 ln -s $OPTS ${CONF_PATH}/own_bashrc ~/.bashrc.d/own_bashrc
 ln -s $OPTS ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases
 
-#set +x
 
-echo "Sourcing ~/.bashrc"
-source ~/.bashrc
+## VIM THEME ##
+echo "Enforcing vim customized palenight theme with lightline."
+vim -c 'PlugInstall' -c 'qa!'
+cp ${CONF_PATH}/vim/lightline_color_palenight.vim ~/.vim/plugged/palenight.vim/autoload/lightline/colorscheme/palenight.vim
+cp ${CONF_PATH}/vim/color_palenight.vim ~/.vim/plugged/palenight.vim/autoload/palenight.vim
+
 
 # From https://github.com/catppuccin/gnome-terminal
 echo "Installing catppuccin themes for gnome-terminal."
 curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.3.0/install.py | python3 - 
 
+## Bat theme config part
+
+echo "Installing catppuccin themes for bat."
+mkdir -p "$(bat --config-dir)/themes"
+
+wget -P "$(bat --config-dir)/themes" -nc https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme
+wget -P "$(bat --config-dir)/themes" -nc https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme
+wget -P "$(bat --config-dir)/themes" -nc https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
+wget -P "$(bat --config-dir)/themes" -nc https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+
+bat cache --build
+
+
+# Finally sourcing the bashrc
+echo "Sourcing ~/.bashrc"
+source ~/.bashrc
+
+
 echo
-echo "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want."
-
-
+echo "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want. MOCHA !"
