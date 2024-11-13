@@ -9,7 +9,7 @@ then
 fi
 
 # Packages to be installed.
-PKG_LIST="git vim tmux fzf bat"
+PKG_LIST="git vim tmux fzf bat zoxide"
 EXTRA_PKG_LIST=" npm cargo"
 
 # Default command

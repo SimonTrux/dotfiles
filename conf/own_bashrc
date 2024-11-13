@@ -59,3 +59,5 @@ _fzf_comprun() {
   esac
 }
 
+## ZOXIDE SECTION ##
+eval "$(zoxide init bash)"
