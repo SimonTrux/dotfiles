@@ -5,9 +5,9 @@ alias so="source ~/.bashrc"
 
 # Better cat if bat installed
 if command -v bat 2>&1 >/dev/null ; then alias cat="bat" ; fi
+if command -v batcat 2>&1 >/dev/null ; then alias cat="batcat" ; fi
 # Better cd if zoxide installed
 if command -v zoxide 2>&1 >/dev/null ; then alias cd="z" ; fi
-
 
 # ls
 alias la="ls -la"

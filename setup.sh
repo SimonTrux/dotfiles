@@ -96,9 +96,16 @@ fi
 ## Bat theme config part
 echo -e "\nInstalling catppuccin themes for bat.\n"
 
-mkdir -p "$(bat --config-dir)/themes"
-cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme $(bat --config-dir)/themes/
-bat cache --build
+if command -v bat 2>&1 >/dev/null
+	then BAT_BIN="bat"
+elif command -v batcat 2>&1 >/dev/null
+	then BAT_BIN="batcat"
+fi
+
+# mkdir -p "${BAT_CONFIG_DIR}/themes"
+mkdir -p "~/.config/bat/themes"
+cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/
+$BAT_BIN cache --build
 
 
 # Sourcing the bashrc
@@ -106,3 +113,4 @@ echo -e "\nSourcing ~/.bashrc\n"
 source ~/.bashrc
 
 echo "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want. MOCHA !"
+
