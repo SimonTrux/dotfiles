@@ -6,7 +6,7 @@ Help() {
 	 echo "   and fzf to find and prewiew anything with C-t or cmd **TAB "
 	 echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
 	 echo
-   echo "Usage : ./setup.sh [-h -f]"
+   echo "Usage : ./setup.sh [-h -i -f]"
    echo "Options"
    echo "  -h  : Display this help "
 	 echo "  -i  : Run install_packages.sh script beforehand."
@@ -44,13 +44,29 @@ while getopts ${OPTIONS} option; do
    esac
 done
 
-echo "Making dir ~/.bashrc.d"
-echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
+## .bashrc Setup
+echo -e "Creating ~/.bashrc.d dir and ensuring it is sourced by ~/.bashrc.\n"
 mkdir -p ~/.bashrc.d
 
-echo
-echo "Now symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
-echo "You can live edit files in ./conf and reload with : $ so    (source ~/.bashrc)"
+# Ensure ~/.bashrc sources ~/.bashrc.d
+if ! grep -q 'if \[ -d ~/.bashrc.d \]; then' ~/.bashrc; then
+    cat << 'EOF' >> ~/.bashrc
+
+# Source scripts from ~/.bashrc.d if it exists
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
+EOF
+fi
+
+echo -e "\nNow symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
+echo -e "You can live edit files in ./conf and reload with so    (source ~/.bashrc)\n"
 
 #set -x
 ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc
@@ -61,7 +77,7 @@ ln -s $OPTS ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases
 
 
 ## VIM THEME ##
-echo "Installing vim customized palenight theme with lightline."
+echo -e "\nInstalling vim customized palenight theme with lightline.\n"
 # vim -c 'PlugInstall' -c 'qa!'
 mkdir -p ~/.vim
 cp -r --update -v ${CONF_PATH}/dot_vim/* ~/.vim/
@@ -70,7 +86,7 @@ cp -r --update -v ${CONF_PATH}/dot_vim/* ~/.vim/
 
 
 # From https://github.com/catppuccin/gnome-terminal
-echo "Installing catppuccin themes for gnome-terminal."
+echo -e "\nInstalling catppuccin themes for gnome-terminal.\n"
 #curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.3.0/install.py | python3 - 
 if command -v python3 2>&1 >/dev/null
 	then python3 scripts/install_gnome-terminal_theme.py --local scripts/Catppuccin_palette.json
@@ -78,7 +94,7 @@ fi
 
 
 ## Bat theme config part
-echo "Installing catppuccin themes for bat."
+echo -e "\nInstalling catppuccin themes for bat.\n"
 
 mkdir -p "$(bat --config-dir)/themes"
 cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme $(bat --config-dir)/themes/

@@ -9,7 +9,7 @@ then
 fi
 
 # Packages to be installed.
-PKG_LIST="git curl wget vim tmux fzf bat zoxide"
+PKG_LIST="git grep curl wget vim tmux fzf bat zoxide"
 EXTRA_PKG_LIST=" npm cargo"
 
 # Default command
@@ -23,7 +23,7 @@ case $OS in
     source /etc/os-release
     case $ID in
       debian|ubuntu|mint)
-        PKG_MGR="apt update && apt"
+        PKG_MGR="apt"
         ;;
       fedora|rhel|centos|almalinux|rocky)
         PKG_MGR="yum"
@@ -53,6 +53,11 @@ case $OS in
     echo -n "unsupported OS"
     ;;
 esac
+
+# If you are root, no sudo
+if [[ $EUID == 0 ]]
+  then SUDO_CMD=""
+fi
 
 echo " - Running $OS os | $ID."
 echo " - Installation planned with : $SUDO $PKG_MGR $INSTALL_CMD"
