@@ -31,7 +31,7 @@ fi
 
 ## BAT Theme Section
 
-export BAT_THEME="Catppuccin Mocha"
+export BAT_THEME="bat_Catppuccin_Mocha"
 
 
 ## FZF SECTION ##

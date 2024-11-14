@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/home/strux'
+let g:netrw_dirhist_8='/home/strux/kube/vagrant-k8s'
+let g:netrw_dirhist_7='/home/strux'
+let g:netrw_dirhist_6='/home/strux/Templates'
+let g:netrw_dirhist_5='/home/strux/Downloads'
+let g:netrw_dirhist_4='/home/strux'
+let g:netrw_dirhist_3='/home/strux/Documents/dotfiles/conf'
+let g:netrw_dirhist_2='/home/strux/Documents/dotfiles'
+let g:netrw_dirhist_1='/home/strux'
+let g:netrw_dirhist_0='/home/strux/Documents/dotfiles'

@@ -9,7 +9,7 @@ then
 fi
 
 # Packages to be installed.
-PKG_LIST="git vim tmux fzf bat zoxide"
+PKG_LIST="git curl wget vim tmux fzf bat zoxide"
 EXTRA_PKG_LIST=" npm cargo"
 
 # Default command
@@ -23,7 +23,7 @@ case $OS in
     source /etc/os-release
     case $ID in
       debian|ubuntu|mint)
-        PKG_MGR="apt"
+        PKG_MGR="apt update && apt"
         ;;
       fedora|rhel|centos|almalinux|rocky)
         PKG_MGR="yum"

@@ -70,7 +70,7 @@ endfunction
 
 " Map a key to toggle the explorer window
 nnoremap <silent> <C-e> :call ToggleExplorer()<CR>
-nnoremap <silent> <space>e :call ToggleExplorer()<CR>
+"nnoremap <silent> <space>e :call ToggleExplorer()<CR>
 
 " Terminal toggle with CTRL or space + t
 map <C-t> :terminal <CR>
@@ -131,15 +131,23 @@ endif
 "	type :PlugInstall    once to install all plugins
 """"""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-Plug 'vim-utils/vim-man'				"View Manual in vim
 Plug 'drewtempelmeyer/palenight.vim'	"Palenight theme
 Plug 'itchyny/lightline.vim'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'junegunn/fzf'
 
 call plug#end()
+
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ "T": 'tab split' }
+" \ "C-x": 'split',
+" \ "C-v": 'vsplit' }
+
+nnoremap <silent> <space>e :FZF <CR>
 
 " Mappings for asyncomplete on tabs"
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
