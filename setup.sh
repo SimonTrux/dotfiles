@@ -103,8 +103,8 @@ elif command -v batcat 2>&1 >/dev/null
 fi
 
 # mkdir -p "${BAT_CONFIG_DIR}/themes"
-mkdir -p "~/.config/bat/themes"
-cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/
+mkdir -p ~/.config/bat/themes
+cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/bat_Catppuccin_Mocha.tmTheme
 $BAT_BIN cache --build
 
 
