@@ -61,3 +61,10 @@ _fzf_comprun() {
 
 ## ZOXIDE SECTION ##
 eval "$(zoxide init bash)"
+
+## KUBECTL Version
+#
+source <(kubectl completion bash)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+

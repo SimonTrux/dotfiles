@@ -31,6 +31,7 @@ filetype plugin indent on
 set autoindent
 set tabstop=2
 set shiftwidth=2
+set expandtab
 
 setlocal list 		"Necessary for next line
 set listchars=tab:\│\ ,trail:-,extends:>,precedes:<,nbsp:+
@@ -74,7 +75,7 @@ nnoremap <silent> <C-e> :call ToggleExplorer()<CR>
 
 " Terminal toggle with CTRL or space + t
 map <C-t> :terminal <CR>
-map <space>t :terminal <CR>
+"map <space>t :terminal <CR>
 tnoremap <C-t> exit<CR>
 tnoremap <space>t exit<CR>
 tnoremap <space><space> <C-w>w
@@ -143,8 +144,8 @@ call plug#end()
 
 " This is the default extra key bindings
 let g:fzf_action = {
-  \ "T": 'tab split' }
-" \ "C-x": 'split',
+      \ "T" : 'tab split', }
+" \ "\<C-s>" : 'split', }
 " \ "C-v": 'vsplit' }
 
 nnoremap <silent> <space>e :FZF <CR>
