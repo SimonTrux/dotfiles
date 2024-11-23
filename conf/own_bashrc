@@ -23,48 +23,50 @@ if [[ ! "$TERM" =~ 256color ]]; then
 fi
 
 if [[ "$TERM" =~ 256color ]]; then
-# colors can be changed with numbers after setaf
-# export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\] \[\e[36m\]\w\[\e[m\] \[\e[35m\]>\[\e[m\] "
-# export PS1="\[$(tput setaf 160)\]\`nonzero_return\` \[$(tput setaf 75)\]\w \[$(tput setaf 141)\]> \[$(tput sgr0)\]"
   export PS1="\[$xred\]\`nonzero_return\` \[$xcyan\]\w \[$bold\]\[$xpink\]> \[$reset\]"
 fi
 
 ## BAT Theme Section
-
 export BAT_THEME="bat_Catppuccin_Mocha"
 
 
 ## FZF SECTION ##
-eval "$(fzf --bash)"
+if command -v fzf > /dev/null 2>&1 ; then
+  eval "$(fzf --bash)"
 
-## Preview section with bat while using fzf with C-t or ** ##
+  ## Preview section with bat while using fzf with C-t or ** ##
 
-show_file_or_dir_preview="if [ -d {} ]; then ls -l --color {} | head -20; else bat -n --color=always --line-range :100 {}; fi"
+  show_file_or_dir_preview="if [ -d {} ]; then ls -l --color {} | head -20; else bat -n --color=always --line-range :100 {}; fi"
 
-export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'ls -l --color {} | head -20'"
+  export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+  export FZF_ALT_C_OPTS="--preview 'ls -l --color {} | head -20'"
 
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
+  # Advanced customization of fzf options via _fzf_comprun function
+  # - The first argument to the function is the name of the command.
+  # - You should make sure to pass the rest of the arguments to fzf.
+  _fzf_comprun() {
+    local command=$1
+    shift
 
-  case "$command" in
-    cd)           fzf --preview 'ls -l {} | head -20' "$@" ;;
-    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
+    case "$command" in
+      cd)           fzf --preview 'ls -l {} | head -20' "$@" ;;
+      export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
+      ssh)          fzf --preview 'dig {}'                   "$@" ;;
+      *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+    esac
+  }
+fi
+
 
 ## ZOXIDE SECTION ##
-eval "$(zoxide init bash)"
+if command -v zoxide > /dev/null 2>&1 ; then
+  eval "$(zoxide init bash)"
+fi
 
 ## KUBECTL Version
 #
-source <(kubectl completion bash)
-alias k=kubectl
-complete -o default -F __start_kubectl k
-
+if command -v kubectl > /dev/null 2>&1 ; then
+  source <(kubectl completion bash)
+  alias k=kubectl
+  complete -o default -F __start_kubectl k
+fi
