@@ -98,4 +98,4 @@ select choice in "yes" "no"; do
 	esac
 done
 
-run_with_colors $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
+run_color $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
