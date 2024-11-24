@@ -16,7 +16,7 @@
 #  echo
 #}
 
-hello() {
+ascii() {
 
   echo -e "${txtgrn}
             Welcome to :

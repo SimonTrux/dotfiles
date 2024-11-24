@@ -32,7 +32,7 @@ info() {
     echo -e "${txtblu}INFO | ${@}${txtrst}"
 }
 
-run_with_colors() {
+run_color() {
     # Capture the command and its arguments as a string
     local cmd="$*"
 

@@ -13,11 +13,12 @@ Help() {
    echo "  -f  : Force symlinking by overwrite present files. Use with caution."
  }
 
-# import echolor function that show OK or KO depending on return code of previous command.
- source scripts/echolor.sh
- source scripts/hello.sh
+# import functions like echolor and hello and presentation
+for file in scripts/func/* ; do
+  . $file 2> /dev/null
+done
 
-hello
+ascii
 presentation
 
 
@@ -73,22 +74,16 @@ fi
 
 
 
-echo -e "Symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
+info "Symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases :"
+
+run_color set_symlink ${CONF_PATH}/vimrc ~/.vimrc $OPTS
+run_color set_symlink ${CONF_PATH}/tmux.conf ~/.tmux.conf $OPTS
+run_color set_symlink ${CONF_PATH}/gitconfig ~/.gitconfig $OPTS
+run_color set_symlink ${CONF_PATH}/own_bashrc ~/.bashrc.d/own_bashrc $OPTS
+run_color set_symlink ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases $OPTS
+
 info "You can live edit files in ./conf and reload with command  \"$ so\"    (source ~/.bashrc)\n"
 
-#set -x
-
-#run_with_colors "ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc"
-
-run_with_colors "ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc"
-ln -s $OPTS ${CONF_PATH}/tmux.conf ~/.tmux.conf
-ln -s $OPTS ${CONF_PATH}/gitconfig ~/.gitconfig
-ln -s $OPTS ${CONF_PATH}/own_bashrc ~/.bashrc.d/own_bashrc
-ln -s $OPTS ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases
-# TODO wrap last 5 command, and if one fails, display a message suggesting
-# tu run again with -f
-
-echo
 
 ## VIM THEME ##
 # vim -c 'PlugInstall' -c 'qa!'

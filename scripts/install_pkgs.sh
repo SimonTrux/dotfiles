@@ -1,7 +1,7 @@
 #!/bin/bash
 # Trying to have a generous installer.
 
-source scripts/echolor.sh
+source scripts/func/echolor.sh
 
 if [[ $# -ne 0 ]]
 then
@@ -32,7 +32,7 @@ for pkg in $PKG_LIST ; do
 done
 
 if $SKIP_INSTALL ; then
-  echolor "All required packages are already installed\n"
+  echolor "All required packages are already installed.\n"
   exit 0
 fi
 
