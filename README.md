@@ -15,7 +15,11 @@ Install my custom cli setup with :
 
 Crafted on Fedora 40, tested on :
 
-- alpine (podman container)
+- fedora 40         (workstation / podman container)
+- alpine 3.20       (podman container)
+- ubuntu 24.04.1    (podman container and wsl)
+- debian 12         (podman container)
+- KO Rhel / Rocky / Alma => No dnf source for fzf bad and zoxide.
 
 ## Intall
 
