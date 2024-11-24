@@ -41,6 +41,7 @@ while getopts ${OPTIONS} option; do
          Help
          exit;;
       i)  # run install_pkgs.sh
+         info "INSTALLING PACKAGES"
          ./scripts/install_pkgs.sh ;;
       f)  # force symlinking
          OPTS="-f";;
@@ -74,7 +75,7 @@ fi
 
 
 
-info "Symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases :"
+info "SYMLINKING"
 
 run_color set_symlink ${CONF_PATH}/vimrc ~/.vimrc $OPTS
 run_color set_symlink ${CONF_PATH}/tmux.conf ~/.tmux.conf $OPTS
@@ -82,8 +83,9 @@ run_color set_symlink ${CONF_PATH}/gitconfig ~/.gitconfig $OPTS
 run_color set_symlink ${CONF_PATH}/own_bashrc ~/.bashrc.d/own_bashrc $OPTS
 run_color set_symlink ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases $OPTS
 
-info "You can live edit files in ./conf and reload with command  \"$ so\"    (source ~/.bashrc)\n"
 
+echo
+info "THEMES"
 
 ## VIM THEME ##
 # vim -c 'PlugInstall' -c 'qa!'
@@ -118,4 +120,7 @@ fi
 # Sourcing the bashrc
 source ~/.bashrc
 echolor "Sourcing ~/.bashrc\n"
+
+info "You can live edit files in ./conf and reload with command  \"$ so\"    (source ~/.bashrc)\n"
+useful_aliases
 

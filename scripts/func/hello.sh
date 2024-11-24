@@ -30,7 +30,7 @@ ${txtrst}"
 }
 
 presentation(){
-  echo " This script will :
+  echo -e "${txtylw} This script will :
   - Install required packages : $PKG_LIST
   - Make your ~/.bashrc source content of ~/.bashrc.d/ where there will be a
   - own_bashrc.sh with custom PS1 prompt and fzf preview using bat + zoxide + kubectl completion if installed
@@ -40,5 +40,5 @@ presentation(){
   - Add some aliases
 
 (Always review code before running it !)
-"
+${txtrst}"
 }
