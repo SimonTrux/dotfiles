@@ -32,14 +32,14 @@ for pkg in $PKG_LIST ; do
 done
 
 if $SKIP_INSTALL ; then
-  echolor All required packages are already installed.
+  echolor "All required packages are already installed\n"
   exit 0
 fi
 
 # Check if already installed
 
 # Default command
-INSTALL_CMD="install"
+INSTALL_CMD="install -y"
 SUDO_CMD="sudo"
 
 # Select proper package installer
@@ -98,7 +98,4 @@ select choice in "yes" "no"; do
 	esac
 done
 
-set -x
-$SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
-echolor "Packages installed."
-set +x
+run_with_colors $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST

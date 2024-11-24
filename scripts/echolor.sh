@@ -31,3 +31,23 @@ echolor() {
 info() {
     echo -e "${txtblu}INFO | ${@}${txtrst}"
 }
+
+run_with_colors() {
+    # Capture the command and its arguments as a string
+    local cmd="$*"
+
+    # Run the command and capture its output and exit status
+    local output
+    output=$(eval "$cmd" 2>&1)
+    local status=$?
+
+    # Display the output in the appropriate color
+    if [ $status -eq 0 ]; then
+        echo -e "${txtgrn} OK  | ${output}${txtrst}"
+    else
+        echo -e "${txtred} KO  | ${output}${txtrst}"
+    fi
+
+    return $status
+}
+
