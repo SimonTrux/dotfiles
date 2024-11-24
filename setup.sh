@@ -13,12 +13,13 @@ Help() {
    echo "  -f  : Force symlinking by overwrite present files. Use with caution."
  }
 
-
+# import echolor function that show OK or KO depending on return code of previous command.
+ source scripts/echolor.sh
 
 # if more than 0 args and 1st arg isnt an option (doesn't start with "-"), exit
 if [[ $# -gt 0 && ! $1 =~ ^(-) ]]
 then
-  echo "Error: Unexpected argument."
+  echolor "Error: Unexpected argument."
   Help
   exit 1
 fi
@@ -33,8 +34,8 @@ while getopts ${OPTIONS} option; do
       h)  # display Help
          Help
          exit;;
-			i)  # run install_pkgs.sh
-				 ./scripts/install_pkgs.sh ;;
+      i)  # run install_pkgs.sh
+         ./scripts/install_pkgs.sh ;;
       f)  # force symlinking
          OPTS="-f";;
       ?) # Invalid option
@@ -45,7 +46,6 @@ while getopts ${OPTIONS} option; do
 done
 
 ## .bashrc Setup
-echo -e "Creating ~/.bashrc.d dir and ensuring it is sourced by ~/.bashrc.\n"
 mkdir -p ~/.bashrc.d
 
 # Ensure ~/.bashrc sources ~/.bashrc.d
@@ -65,8 +65,11 @@ unset rc
 EOF
 fi
 
-echo -e "\nNow symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
-echo -e "You can live edit files in ./conf and reload with so    (source ~/.bashrc)\n"
+echolor "Creating ~/.bashrc.d dir and ensuring it is sourced by ~/.bashrc.\n"
+
+
+echo -e "Symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
+info "You can live edit files in ./conf and reload with so    (source ~/.bashrc)\n"
 
 #set -x
 ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc
@@ -74,43 +77,44 @@ ln -s $OPTS ${CONF_PATH}/tmux.conf ~/.tmux.conf
 ln -s $OPTS ${CONF_PATH}/gitconfig ~/.gitconfig
 ln -s $OPTS ${CONF_PATH}/own_bashrc ~/.bashrc.d/own_bashrc
 ln -s $OPTS ${CONF_PATH}/own_aliases ~/.bashrc.d/own_aliases
+# TODO wrap last 5 command, and if one fails, display a message suggesting
+# tu run again with -f
 
+echo
 
 ## VIM THEME ##
-echo -e "\nInstalling vim customized palenight theme with lightline.\n"
 # vim -c 'PlugInstall' -c 'qa!'
 mkdir -p ~/.vim
 cp -r --update -v ${CONF_PATH}/dot_vim/* ~/.vim/
-#cp ${CONF_PATH}/vim/lightline_color_palenight.vim ~/.vim/plugged/palenight.vim/autoload/lightline/colorscheme/palenight.vim
-#cp ${CONF_PATH}/vim/color_palenight.vim ~/.vim/plugged/palenight.vim/autoload/palenight.vim
+echolor "Installing vim customized palenight theme with lightline.\n"
 
 
 # From https://github.com/catppuccin/gnome-terminal
-echo -e "\nInstalling catppuccin themes for gnome-terminal.\n"
 #curl -L https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.3.0/install.py | python3 - 
-if command -v python3 2>&1 >/dev/null
-	then python3 scripts/install_gnome-terminal_theme.py --local scripts/Catppuccin_palette.json
+if command -v python3 > /dev/null 2>&1 && command -v gnome-terminal > /dev/null 2>&1
+	then python3 scripts/install_gnome-terminal_theme.py --local scripts/Catppuccin_palette.json > /dev/null
+  echolor "Installing catppuccin themes for gnome-terminal."
+  info "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want. MOCHA !\n"
 fi
 
 
 ## Bat theme config part
-echo -e "\nInstalling catppuccin themes for bat.\n"
-
-if command -v bat 2>&1 >/dev/null
+if command -v bat > /dev/null 2>&1
 	then BAT_BIN="bat"
-elif command -v batcat 2>&1 >/dev/null
+elif command -v batcat > /dev/null 2>&1
 	then BAT_BIN="batcat"
 fi
 
-# mkdir -p "${BAT_CONFIG_DIR}/themes"
-mkdir -p ~/.config/bat/themes
-cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/bat_Catppuccin_Mocha.tmTheme
-$BAT_BIN cache --build
+if command -v $BAT_BIN > /dev/null 2>&1 ; then
+  mkdir -p ~/.config/bat/themes
+  cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/bat_Catppuccin_Mocha.tmTheme
+  $BAT_BIN cache --build > /dev/null
+  echolor "Installing catppuccin themes for bat.\n"
+fi
 
 
 # Sourcing the bashrc
-echo -e "\nSourcing ~/.bashrc\n"
 source ~/.bashrc
+echolor "Sourcing ~/.bashrc\n"
 
-echo "In Gnome Terminal, open Edit -> Preferences, and enable the profile for the theme you want. MOCHA !"
 

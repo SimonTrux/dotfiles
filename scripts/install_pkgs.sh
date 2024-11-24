@@ -1,6 +1,8 @@
 #!/bin/bash
 # Trying to have a generous installer.
 
+source scripts/echolor.sh
+
 if [[ $# -ne 0 ]]
 then
   echo "Error: Unexpected argument."
@@ -11,6 +13,30 @@ fi
 # Packages to be installed.
 PKG_LIST="ncurses grep vim tmux fzf bat zoxide"
 EXTRA_PKG_LIST=" npm cargo"
+
+# if "tput" is missing, add ncurses which provides it to PKG_LIST
+# This will trigger install in next block as "command -v ncuses" will fail.
+# On subsequent run, wont add ncurses so wont rerun if all pkgs are installed.
+if ! command -v tput > /dev/null 2>&1 ; then
+  PKG_LIST+="ncurses"
+fi
+
+# Check If all packages are already installed.
+SKIP_INSTALL=true
+for pkg in $PKG_LIST ; do
+  if ! command -v $pkg > /dev/null 2>&1 ; then
+    info Some packages need installing.
+    SKIP_INSTALL=false
+    break
+  fi
+done
+
+if $SKIP_INSTALL ; then
+  echolor All required packages are already installed.
+  exit 0
+fi
+
+# Check if already installed
 
 # Default command
 INSTALL_CMD="install"
@@ -50,7 +76,7 @@ case $OS in
 		SUDO_CMD=""
   ;;
   *)
-    echo -n "unsupported OS"
+    echo -e "Unsupported OS"
     ;;
 esac
 
@@ -59,9 +85,10 @@ if [[ $EUID == 0 ]]
   then SUDO_CMD=""
 fi
 
-echo " - Running $OS os | $ID."
-echo " - Installation planned with : $SUDO $PKG_MGR $INSTALL_CMD"
-echo " - Package to be installed : $PKG_LIST"
+
+info "Running $OS os | $ID."
+info "Installation planned with : $SUDO $PKG_MGR $INSTALL_CMD"
+info "Package to be installed : $PKG_LIST"
 
 echo "Do you want to also install vim LSP dependencies : $EXTRA_PKG_LIST ?"
 select choice in "yes" "no"; do
@@ -73,3 +100,5 @@ done
 
 set -x
 $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
+echolor "Packages installed."
+set +x

@@ -1,0 +1,12 @@
+[init]
+	defaultBranch = main
+[alias]
+	b = branch
+	ba = branch --all
+	ls = log --oneline --graph
+	st = status
+	s = status --short
+  unstage = restore --staged
+[user]
+	email = simon.truxillo@gmail.com
+	name = SimonTrux

@@ -62,11 +62,11 @@ def gsettings_set(
     if path:
         print(f"Setting {path}/ {key} to {value}")
         run(
-            ["gsettings", "set", f"{gsettings_path_base}:{path}/", f"{key}", f"{value}"]
-        )
+            ["gsettings", "set", f"{gsettings_path_base}:{path}/", f"{key}", f"{value}"])
     else:
         print(f"Setting {key} to {value}")
-        run(["gsettings", "set", f"{gsettings_schema}", f"{key}", f"{value}"])
+        run(
+            ["gsettings", "set", f"{gsettings_schema}", f"{key}", f"{value}"])
 
 
 # handle the case where there are no profiles
