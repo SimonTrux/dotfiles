@@ -18,7 +18,7 @@ EXTRA_PKG_LIST=" npm cargo"
 # This will trigger install in next block as "command -v ncuses" will fail.
 # On subsequent run, wont add ncurses so wont rerun if all pkgs are installed.
 if ! command -v tput > /dev/null 2>&1 ; then
-  PKG_LIST+="ncurses"
+  PKG_LIST+=" ncurses"
 fi
 
 # Check If all packages are already installed.
