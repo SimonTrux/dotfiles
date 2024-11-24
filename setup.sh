@@ -69,7 +69,7 @@ echolor "Creating ~/.bashrc.d dir and ensuring it is sourced by ~/.bashrc.\n"
 
 
 echo -e "Symlinking .vimrc .tmux.conf .gitconfig, own_bashrc and own_aliases."
-info "You can live edit files in ./conf and reload with so    (source ~/.bashrc)\n"
+info "You can live edit files in ./conf and reload with command  \"$ so\"    (source ~/.bashrc)\n"
 
 #set -x
 ln -s $OPTS ${CONF_PATH}/vimrc ~/.vimrc
@@ -85,7 +85,7 @@ echo
 ## VIM THEME ##
 # vim -c 'PlugInstall' -c 'qa!'
 mkdir -p ~/.vim
-cp -r --update -v ${CONF_PATH}/dot_vim/* ~/.vim/
+cp -r --update ${CONF_PATH}/dot_vim/* ~/.vim/
 echolor "Installing vim customized palenight theme with lightline.\n"
 
 

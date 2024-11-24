@@ -22,12 +22,12 @@ txtrst='\033[0m'    # Text Reset
 
 echolor() {
   if (( $? ==0 )) ; then
-    echo -e "${txtgrn}OK - ${@}${txtrst}"
+    echo -e "${txtgrn} OK  | ${@}${txtrst}"
   else
-    echo -e "${txtred}KO - ${@}${txtrst}"
+    echo -e "${txtred} KO  | ${@}${txtrst}"
   fi
 }
 
 info() {
-    echo -e "${txtblu}INFO - ${@}${txtrst}"
+    echo -e "${txtblu}INFO | ${@}${txtrst}"
 }
