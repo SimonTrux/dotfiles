@@ -11,7 +11,7 @@ then
 fi
 
 # Packages to be installed.
-PKG_LIST="ncurses grep vim tmux fzf bat zoxide"
+PKG_LIST="grep vim tmux fzf bat zoxide"
 EXTRA_PKG_LIST=" npm cargo"
 
 # if "tput" is missing, add ncurses which provides it to PKG_LIST
