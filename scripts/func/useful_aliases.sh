@@ -3,14 +3,18 @@
 useful_aliases() {
 
 info " Some useful aliases :
-    so='source ~/.bashrc'                  # to reload bash conf
-    vimrc='vim ~/.vimrc'                   # edit dotfiles vimrc
-    tmux.conf='vim ~/.tmux.conf'           # edit dotfiles tmux.conf
-    aliases='vim ~/.bashrc.d/own_aliases'  # edit dotfiles aliases
-    bashrc='vim ~/.bashrc.d/own_bashrc'    # edit dotfiles bashrc
-    gitconfig='vim ~/.gitconfig'
-    cat='bat'
-    cd='z'
-    k='kubectl'
+            # Reload bashrc and aliases
+         so         ==  source ~/.bashrc
+            # Editing config files
+         vimrc      ==  vim ~/.vimrc
+         tmux.conf  ==  vim ~/.tmux.conf'
+         aliases    ==  vim ~/.bashrc.d/own_aliases'
+         bashrc     ==  vim ~/.bashrc.d/own_bashrc'
+         gitconfig  ==  vim ~/.gitconfig'
+            # Extra stuff
+         cat        ==  bat
+         cd         ==  z        # like cd, but lazy
+         k          ==  kubectl  # with autocompletion
+         <ctrl> + t or **<tab> after cd or ls for fzf
 "
 }

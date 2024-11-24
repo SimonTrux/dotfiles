@@ -18,8 +18,8 @@
 
 ascii() {
 
-  echo -e "${txtgrn}
-            Welcome to :
+  echo -e "
+            Welcome to ${txtgrn}
    _____                     _       _    __ _ _
   |_   _|                    | |     | |  / _(_) |
     | |_ __ _   ___  __    __| | ___ | |_| |_ _| | ___  ___

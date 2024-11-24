@@ -32,7 +32,7 @@ fi
 
 # Variable sections
 CONF_PATH="${PWD}/conf"
-OPTIONS=":ihf"
+OPTIONS=":hf"
 
 # Options handling
 while getopts ${OPTIONS} option; do
@@ -40,9 +40,9 @@ while getopts ${OPTIONS} option; do
       h)  # display Help
          Help
          exit;;
-      i)  # run install_pkgs.sh
-         info "INSTALLING PACKAGES"
-         ./scripts/install_pkgs.sh ;;
+#     i)  # run install_pkgs.sh
+#        info "INSTALLING PACKAGES"
+#        ./scripts/install_pkgs.sh ;;
       f)  # force symlinking
          OPTS="-f";;
       ?) # Invalid option
@@ -51,6 +51,11 @@ while getopts ${OPTIONS} option; do
          exit 1 ;;
    esac
 done
+
+## Packages
+info "INSTALLING PACKAGES"
+scripts/install_pkgs.sh
+
 
 ## .bashrc Setup
 mkdir -p ~/.bashrc.d
