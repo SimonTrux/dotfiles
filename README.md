@@ -4,9 +4,25 @@ A simple repo to pull and grow my cli config around.
 
 ## What does it do ?
 
-Vimrc including themes, bashrc, some aliases, a nicer PS1 prompt, some colors in terminal (256 colors compatible)
+Install my custom cli setup with :
+- Vimrc including themes and Plug manager
+- tmux config
+- own_bashrc (leave your original almost as is)
+- a nicer PS1 prompt, some colors in terminal (256 colors compatible)
+- quality of life aliases (at least for me)
+
+### On which platform ?
+
+Crafted on Fedora 40, tested on :
+
+- alpine (podman container)
 
 ## Intall
+
+### Requirements
+
+- Bash
+- git (if you want to git clone).
 
 ### Clone this repo
 
@@ -18,7 +34,7 @@ git clone https://www.github.com/SimonTrux/dotfiles
 
 The setup will install required packages and symlink config files.
 
-1 - Install packages (git, vim, tmux, fzf, bat, zoxide)
+1 - Install packages (vim, tmux, fzf, bat, zoxide)
 2 - symlink files in the `conf` directory to respective places in user home dir.
 
 ```
@@ -43,7 +59,7 @@ so  # to source ~/.bashrc
 
 vimrc   # to vim ~/.vimrc (which will modifie the dotfiles/conf/vimrc) 
 bashrc  # to vim ~/.bashrc 
-        # etc... look at aliases.
+        # etc... look at script/func/useful_aliases.sh
 ```
 
 ### Vim plugin

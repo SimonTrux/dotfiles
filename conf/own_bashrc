@@ -31,11 +31,9 @@ export BAT_THEME="bat_Catppuccin_Mocha"
 
 
 ## FZF SECTION ##
-if command -v fzf > /dev/null 2>&1 ; then
-  eval "$(fzf --bash)"
+if command -v fzf > /dev/null 2>&1 && eval "$(fzf --bash >/dev/null 2>&1)" ; then
 
   ## Preview section with bat while using fzf with C-t or ** ##
-
   show_file_or_dir_preview="if [ -d {} ]; then ls -l --color {} | head -20; else bat -n --color=always --line-range :100 {}; fi"
 
   export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"

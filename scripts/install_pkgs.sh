@@ -49,7 +49,7 @@ case $OS in
     source /etc/os-release
     case $ID in
       debian|ubuntu|mint)
-        PKG_MGR="apt"
+        PKG_MGR="apt-get"
         ;;
       fedora|rhel|centos|almalinux|rocky)
         PKG_MGR="yum"
@@ -66,7 +66,7 @@ case $OS in
         INSTALL_CMD="-S"
         ;;
       *)
-        echo -n "Unsupported linux distro"
+        echo -e "Unsupported linux distro"
         ;;
     esac
   ;;
@@ -98,4 +98,5 @@ select choice in "yes" "no"; do
 	esac
 done
 
-run_color $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
+$SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
+echolor "Packages installed."

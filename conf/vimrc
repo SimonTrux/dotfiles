@@ -34,10 +34,12 @@ set shiftwidth=2
 set expandtab
 
 setlocal list 		"Necessary for next line
-set listchars=tab:\│\ ,trail:-,extends:>,precedes:<,nbsp:+
+set listchars=tab:\|\ ,trail:-,extends:>,precedes:<,nbsp:+
 "highlight TabLineSel ctermfg=blue ctermbg=black "WIP
 
-" : WILDMENU : Enhannce command line completion
+nnoremap nh :noh <CR>
+
+" : WILDMENU : Enhance command line completion
 set wildmenu
 set wildmode=longest:full,list:full " Set completion behavior, see :help wildmode
 
