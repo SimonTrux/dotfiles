@@ -5,6 +5,7 @@ A simple repo to pull and grow my cli config around.
 ## What does it do ?
 
 Install my custom cli setup with :
+
 - Vimrc including themes and Plug manager
 - tmux config
 - own_bashrc (leave your original almost as is)
@@ -13,13 +14,13 @@ Install my custom cli setup with :
 
 ### On which platform ?
 
-Crafted on Fedora 40, tested on :
+Crafted on Fedora 41, tested on :
 
-- fedora 40         (workstation / podman container)
-- alpine 3.20       (podman container)
-- ubuntu 24.04.1    (podman container and wsl)
-- debian 12         (podman container)
-- KO Rhel / Rocky / Alma => No dnf source for fzf bad and zoxide.
+- fedora 41 (workstation / podman container)
+- alpine 3.20 (podman container)
+- ubuntu 24.04.1 (podman container and wsl)
+- debian 12 (podman container)
+- KO Rhel / Rocky / Alma => No dnf source for fzf bat and zoxide.
 
 ## Intall
 
@@ -41,7 +42,7 @@ The setup will install required packages and symlink config files.
 1 - Install packages (vim, tmux, fzf, bat, zoxide)
 2 - symlink files in the `conf` directory to respective places in user home dir.
 
-```
+```bash
 # One line does it all
 ./setup.sh
 ```
@@ -61,8 +62,8 @@ Config files symlinked are :
 ```
 so  # to source ~/.bashrc
 
-vimrc   # to vim ~/.vimrc (which will modifie the dotfiles/conf/vimrc) 
-bashrc  # to vim ~/.bashrc 
+vimrc   # to vim ~/.vimrc (which will modifie the dotfiles/conf/vimrc)
+bashrc  # to vim ~/.bashrc
         # etc... look at script/func/useful_aliases.sh
 ```
 
@@ -73,6 +74,10 @@ If you want to use LSP, do `:PlugInstall` to install LSP plug, that will then ne
 LSP requires `cargo` and `npm` installed.
 To install LSP for a new language, open a file with extention of choosen language (ex file.go) and run `:LspInstallServer`
 To remove one, run ":LspUninstallServer <server name>"
+
+### nvim config 
+
+Almost copied from Josean, whith mason and mason-lsp plugins pinned to version 1.x.x since there is an annoying bug in v2.0.0 for now.
 
 ### File location for offline copy
 

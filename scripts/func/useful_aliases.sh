@@ -7,6 +7,7 @@ info " Some useful aliases :
          so         ==  source ~/.bashrc
             # Editing config files
          vimrc      ==  vim ~/.vimrc
+         nvimrc     ==  nvim ~/.config/nvim/
          tmux.conf  ==  vim ~/.tmux.conf'
          aliases    ==  vim ~/.bashrc.d/own_aliases'
          bashrc     ==  vim ~/.bashrc.d/own_bashrc'
@@ -15,6 +16,7 @@ info " Some useful aliases :
          cat        ==  bat
          cd         ==  z        # like cd, but lazy
          k          ==  kubectl  # with autocompletion
+         n          ==  nvim
          <ctrl> + t or **<tab> after cd or ls for fzf
 "
 }

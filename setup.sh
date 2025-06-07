@@ -98,6 +98,13 @@ mkdir -p ~/.vim
 cp -r --update ${CONF_PATH}/dot_vim/* ~/.vim/
 echolor "Installing vim customized palenight theme with lightline."
 
+## NVIM CONF ##
+
+mkdir -p ~/.config/nvim
+cp -r --update ${CONF_PATH}/config_nvim/* ~/.config/nvim/
+echolor "Installing neovim custom config. Need to install neovim manually though."
+
+
 ## Bat theme config part
 if command -v bat > /dev/null 2>&1
 	then BAT_BIN="bat"
