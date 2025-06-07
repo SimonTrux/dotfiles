@@ -2,19 +2,6 @@
 
 # Ascii art from https://patorjk.com/software/taag/#p=display&f=Big&t=Trux%20dotfiles
 # font : Big
-#
-#hello() {
-#
-#  echo
-#  echo "Welcome to"
-#  echo "        _____                     _       _    __ _ _            "
-#  echo "       |_   _|                   | |     | |  / _(_) |           "
-#  echo "         | |_ __ _   ___  __   __| | ___ | |_| |_ _| | ___  ___  "
-#  echo "         | | '__| | | \ \/ /  / _' |/ _ \| __|  _| | |/ _ \/ __| "
-#  echo "         | | |  | |_| |>  <  | (_| | (_) | |_| | | | |  __/\__ \ "
-#  echo "         \_/_|   \__._/_/\_\  \__._|\___/ \__|_| |_|_|\___||___/ "
-#  echo
-#}
 
 ascii() {
 
@@ -42,3 +29,16 @@ presentation(){
 (Always review code before running it !)
 ${txtrst}"
 }
+
+Help() {
+   echo "This script symlinks files in ./conf. You get : "
+	 echo " - Improved vim, tmux, git alias, a cleaner bash, a better cat (bat) "
+	 echo "   and fzf to find and prewiew anything with C-t or cmd **TAB "
+	 echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
+	 echo
+   echo "Usage : ./setup.sh [-h -i -f]"
+   echo "Options"
+   echo "  -h  : Display this help "
+# echo "  -i  : Run install_packages.sh script beforehand."
+   echo "  -f  : Force symlinking by overwrite present files. Use with caution."
+ }
