@@ -73,12 +73,20 @@ case $OS in
 
   darwin)
     PKG_MGR="brew"
-		SUDO_CMD=""
+    SUDO_CMD=""
+    INSTALL_CMD="install"
   ;;
   *)
     echo -e "Unsupported OS"
     ;;
 esac
+
+# If brew is present, takes precedence.
+if command -v brew 2&>/dev/null ; then
+  PKG_MGR="brew"
+  SUDO_CMD=""
+  INSTALL_CMD="install"
+fi
 
 # If you are root, no sudo
 if [[ $EUID == 0 ]]

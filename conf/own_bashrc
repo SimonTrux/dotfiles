@@ -1,5 +1,7 @@
 # .bashrc
 
+export EDITOR="vi"
+
 ## CUSTOM PS1 ##
 ## Crafted with https://ezprompt.net/
 
@@ -63,9 +65,18 @@ if command -v zoxide > /dev/null 2>&1 ; then
 fi
 
 ## KUBECTL Version
-#
 if command -v kubectl > /dev/null 2>&1 ; then
   source <(kubectl completion bash)
   alias k=kubectl
   complete -o default -F __start_kubectl k
+fi
+
+## Go binary for boot.dev cli tool
+if stat $HOME/go/bin &> /dev/null ; then
+  export PATH=$PATH:$HOME/go/bin
+fi
+
+## BREW
+if command -v brew > /dev/null 2>&1 ; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi

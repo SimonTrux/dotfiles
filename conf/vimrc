@@ -3,9 +3,9 @@
 "		GENERAL SETTINGS
 """"""""""""""""""""""""""""""""""""""""
 syntax on
-set number
+set number relativenumber
 set mouse=a
-set nopaste
+set paste
 set noshowmode
 set showcmd
 set cursorline
@@ -181,3 +181,5 @@ abbr _sh #!/bin/bash
 """autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab}
 "autocmd FileType yaml setlocal ai et ts=2 sw=2 cuc cul
 
+"" to use fzf
+"set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
