@@ -13,7 +13,7 @@ fi
 # Packages to be installed.
 PKG_LIST="grep vim tmux fzf bat zoxide"
 VIM_LSP_DEPS=" npm cargo"
-NEOVIM_PKG=" neovim make"
+NEOVIM_PKG=" neovim make gcc"
 
 # if "tput" is missing, add ncurses which provides it to PKG_LIST
 # This will trigger install in next block as "command -v ncuses" will fail.
@@ -64,7 +64,7 @@ fi
 # Check if already installed
 
 # Default command
-INSTALL_CMD="install -y"
+INSTALL_CMD="install"
 SUDO_CMD="sudo"
 
 # Select proper package installer
@@ -79,7 +79,7 @@ case $OS in
       fedora|rhel|centos|almalinux|rocky)
         PKG_MGR="yum"
         ;;
-      suse)
+      suse|SLE|opensuse|opensuse-leap)
         PKG_MGR="zypper"
         ;;
       alpine)
@@ -99,8 +99,7 @@ case $OS in
   darwin)
     PKG_MGR="brew"
     SUDO_CMD=""
-    INSTALL_CMD="install"
-  ;;
+    ;;
   *)
     echo -e "Unsupported OS"
     ;;
@@ -110,7 +109,6 @@ esac
 if command -v brew 2&>/dev/null ; then
   PKG_MGR="brew"
   SUDO_CMD=""
-  INSTALL_CMD="install"
 fi
 
 # If you are root, no sudo
