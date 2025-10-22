@@ -16,14 +16,18 @@ alias la="ls -la"
 alias lh="ls -lahS"
 alias lt="ls -lat"
 
-# Edit config files by name right away
-alias vimrc="vim ~/.vimrc"
-alias gitconfig="vim ~/.gitconfig"
-alias tmux.conf="vim ~/.tmux.conf"
 
-alias bashrc="vim ~/.bashrc.d/own_bashrc"
-alias aliases="vim ~/.bashrc.d/own_aliases"
+# Edit config files by name right away
+alias vimrc="$EDITOR ~/.vimrc"
+alias gitconfig="$EDITOR ~/.gitconfig"
+alias tmux.conf="$EDITOR ~/.tmux.conf"
+
+alias bashrc="$EDITOR ~/.bashrc.d/own_bashrc"
+alias aliases="$EDITOR ~/.bashrc.d/own_aliases"
 
 #if command -v nvim 2>&1 >/dev/null ; then alias n="nvim" ; fi
 command -v nvim >/dev/null && alias n="nvim"
 command -v nvim >/dev/null && alias nvimrc="nvim ~/.config/nvim"
+
+alias k_get_ns_objects="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
+alias kns='kubectl config set-context --current --namespace '

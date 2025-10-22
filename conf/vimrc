@@ -5,7 +5,7 @@
 syntax on
 set number relativenumber
 set mouse=a
-set paste
+set nopaste
 set noshowmode
 set showcmd
 set cursorline

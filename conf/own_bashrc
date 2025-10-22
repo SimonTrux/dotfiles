@@ -1,6 +1,10 @@
 # .bashrc
 
-export EDITOR="vi"
+if command nvim -v &> /dev/null ; then
+  export EDITOR="nvim"
+else
+  export EDITOR="vi"
+fi
 
 ## CUSTOM PS1 ##
 ## Crafted with https://ezprompt.net/
@@ -77,6 +81,16 @@ if stat $HOME/go/bin &> /dev/null ; then
 fi
 
 ## BREW
-if command -v brew > /dev/null 2>&1 ; then
+if command -v brew &> /dev/null ; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+if command -v asdf &> /dev/null ; then
+  eval "$(asdf completion bash)"
+fi
+
+if command -v asdf &> /dev/null ; then
+  eval "$(asdf completion bash)"
+fi
+
+if type talosctl &>/dev/null ; then eval "$(talosctl completion bash)"; fi
