@@ -1,16 +1,38 @@
 # .bashrc
 
-if command nvim -v &> /dev/null ; then
-  export EDITOR="nvim"
-else
-  export EDITOR="vi"
+## FUNCTIONS
+# in conf/own_aliases beause of alphabetical precedence
+#exists(){
+#  command -v "$1" &>/dev/null
+#}
+
+add_bash_completion(){
+  for bin in "$@" ; do
+    exists $bin && eval "$($bin completion bash)"
+  done
+}
+
+## BASH COMPLETIONS
+add_bash_completion asdf talosctl kubectl
+exists zoxide && eval "$(zoxide init bash)"
+exists brew   && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+## EDITOR
+exists nvim && export EDITOR="nvim"
+
+## KUBECTL
+if exists kubectl ; then
+  alias k=kubectl
+  complete -o default -F __start_kubectl k
 fi
+
+## PATH Go binary for boot.dev cli tool
+[ -d $HOME/go/bin ] && export PATH=$PATH:$HOME/go/bin
 
 ## CUSTOM PS1 ##
 ## Crafted with https://ezprompt.net/
-
 # for error code, called in PS1 line
-function nonzero_return() {
+nonzero_return() {
 	RETVAL=$?
 	[ $RETVAL -ne 0 ] && echo "$RETVAL"
 }
@@ -20,29 +42,20 @@ bold=$(tput bold)
 xred=$(tput setaf 160)
 xcyan=$(tput setaf 75)
 xpink=$(tput setaf 183)
-#xpink=$(tput setaf 141)
-#xpink=$(tput setaf 224)
 
 # Good for 16 colors terminals
-if [[ ! "$TERM" =~ 256color ]]; then
-  export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\] \[\e[36m\]\w\[\e[m\] \[\e[35m\]>\[\e[m\] "
-fi
-
-if [[ "$TERM" =~ 256color ]]; then
-  export PS1="\[$xred\]\`nonzero_return\` \[$xcyan\]\w \[$bold\]\[$xpink\]> \[$reset\]"
-fi
+[[ ! "$TERM" =~ 256color ]] && export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\] \[\e[36m\]\w\[\e[m\] \[\e[35m\]>\[\e[m\] "
+[[   "$TERM" =~ 256color ]] && export PS1="\[$xred\]\`nonzero_return\` \[$xcyan\]\w \[$bold\]\[$xpink\]> \[$reset\]"
 
 ## BAT Theme Section
 export BAT_THEME="bat_Catppuccin_Mocha"
 
-
 ## FZF SECTION ##
-if command -v fzf > /dev/null 2>&1 && fzf --bash > /dev/null 2>&1 ; then
+if exists fzf && fzf --bash > /dev/null 2>&1 ; then
   eval "$(fzf --bash)"
 
   ## Preview section with bat while using fzf with C-t or ** ##
   show_file_or_dir_preview="if [ -d {} ]; then ls -l --color {} | head -20; else bat -n --color=always --line-range :100 {}; fi"
-
   export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
   export FZF_ALT_C_OPTS="--preview 'ls -l --color {} | head -20'"
 
@@ -54,43 +67,11 @@ if command -v fzf > /dev/null 2>&1 && fzf --bash > /dev/null 2>&1 ; then
     shift
 
     case "$command" in
-      cd)           fzf --preview 'ls -l {} | head -20' "$@" ;;
-      export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
-      ssh)          fzf --preview 'dig {}'                   "$@" ;;
+      cd)           fzf --preview 'ls -l {} | head -20'       "$@" ;;
+      export|unset) fzf --preview "eval 'echo ${}'"           "$@" ;;
+      ssh)          fzf --preview 'dig {}'                    "$@" ;;
       *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
     esac
   }
 fi
 
-
-## ZOXIDE SECTION ##
-if command -v zoxide > /dev/null 2>&1 ; then
-  eval "$(zoxide init bash)"
-fi
-
-## KUBECTL Version
-if command -v kubectl > /dev/null 2>&1 ; then
-  source <(kubectl completion bash)
-  alias k=kubectl
-  complete -o default -F __start_kubectl k
-fi
-
-## Go binary for boot.dev cli tool
-if stat $HOME/go/bin &> /dev/null ; then
-  export PATH=$PATH:$HOME/go/bin
-fi
-
-## BREW
-if command -v brew &> /dev/null ; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-if command -v asdf &> /dev/null ; then
-  eval "$(asdf completion bash)"
-fi
-
-if command -v asdf &> /dev/null ; then
-  eval "$(asdf completion bash)"
-fi
-
-if type talosctl &>/dev/null ; then eval "$(talosctl completion bash)"; fi

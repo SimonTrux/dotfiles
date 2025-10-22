@@ -1,13 +1,23 @@
 #.bashrc
 
-# utilities
+## FUNCTIONS and utilities
+exists(){
+  command -v "$1" &>/dev/null
+}
 alias so="source ~/.bashrc"
 
-# Better cat if bat installed
-if command -v bat 2>&1 >/dev/null ; then alias cat="bat" ; fi
-if command -v batcat 2>&1 >/dev/null ; then alias cat="batcat" ; fi
-# Better cd if zoxide installed
-if command -v zoxide 2>&1 >/dev/null ; then alias cd="z" ; fi
+# editor
+if exists nvim ; then
+  export EDITOR="nvim"
+  alias n="nvim"
+  alias nvimrc="nvim ~/.config/nvim"
+else
+  export EDITOR="vi"
+fi
+
+# Better cat if bat installed, better cd with zoxide
+exists bat && alias cat="bat" || exists batcat && alias cat="batcat"
+exists zoxide && alias cd="z"
 
 # ls
 alias ls="ls --color=auto"
@@ -21,13 +31,8 @@ alias lt="ls -lat"
 alias vimrc="$EDITOR ~/.vimrc"
 alias gitconfig="$EDITOR ~/.gitconfig"
 alias tmux.conf="$EDITOR ~/.tmux.conf"
-
 alias bashrc="$EDITOR ~/.bashrc.d/own_bashrc"
 alias aliases="$EDITOR ~/.bashrc.d/own_aliases"
 
-#if command -v nvim 2>&1 >/dev/null ; then alias n="nvim" ; fi
-command -v nvim >/dev/null && alias n="nvim"
-command -v nvim >/dev/null && alias nvimrc="nvim ~/.config/nvim"
-
-alias k_get_ns_objects="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
-alias kns='kubectl config set-context --current --namespace '
+exists kubectl && alias k_get_ns_objects="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
+exists kubectl && alias kns='kubectl config set-context --current --namespace '
