@@ -16,7 +16,8 @@ else
 fi
 
 # Better cat if bat installed, better cd with zoxide
-exists bat && alias cat="bat" || exists batcat && alias cat="batcat"
+exists bat && alias cat="bat"
+exists batcat && alias cat="batcat"
 exists zoxide && alias cd="z"
 
 # ls

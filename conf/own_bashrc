@@ -27,8 +27,9 @@ if exists kubectl ; then
 fi
 
 ## PATH Go binary for boot.dev cli tool
-[ -d $HOME/go/bin ] && export PATH=$PATH:$HOME/go/bin
-
+[ -d $HOME/go/bin ] && export PATH+=:$HOME/go/bin
+gem_bin="/var/home/linuxbrew/.linuxbrew/lib/ruby/gems/3.4.0/bin/"
+[ -d $gem_bin ] && export PATH+=:$gem_bin
 ## CUSTOM PS1 ##
 ## Crafted with https://ezprompt.net/
 # for error code, called in PS1 line
