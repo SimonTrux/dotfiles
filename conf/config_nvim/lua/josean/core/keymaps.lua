@@ -23,3 +23,8 @@ keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) 
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 keymap.set("n", "bl", "<cmd>ls<CR>", { desc = "list buffers" }) --  move current buffer to new tab
 keymap.set("n", "bn", "<cmd>bn<CR>", { desc = "next buffer" }) --  move current buffer to new tab
+
+-- Coding in go
+keymap.set("n", "<leader>tt", ":!go test -v<CR>", { desc = "run go test -v" }) -- make split windows equal width & height
+keymap.set("n", "<leader>tc", ":!go test -cover<CR>", { desc = "run go test coverage" }) -- make split windows equal width & height
+keymap.set("n", "<leader>tb", ":!go test -bench=. <CR>", { desc = "run go test benchmark" }) -- make split windows equal width & height
