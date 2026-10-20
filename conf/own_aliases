@@ -6,7 +6,7 @@ exists(){
 }
 alias so="source ~/.bashrc"
 
-# editor
+# editor, only set here (own_aliases is sourced before own_bashrc)
 if exists nvim ; then
   export EDITOR="nvim"
   alias n="nvim"
@@ -14,6 +14,7 @@ if exists nvim ; then
 else
   export EDITOR="vi"
 fi
+export SYSTEMD_EDITOR="$EDITOR"
 
 # Better cat if bat installed, better cd with zoxide
 exists bat && alias cat="bat"

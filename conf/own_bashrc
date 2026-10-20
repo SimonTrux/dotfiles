@@ -16,19 +16,20 @@ add_bash_completion(){
 add_bash_completion asdf talosctl kubectl
 exists brew   && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-## EDITOR
-exists nvim && export EDITOR="nvim" || export EDITOR="vi"
-exists nvim && export SYSTEMD_EDITOR="nvim" || export SYSTEMD_EDITOR="vi"
 ## KUBECTL
 if exists kubectl ; then
   alias k=kubectl
   complete -o default -F __start_kubectl k
 fi
 
-## PATH Go binary for boot.dev cli tool
-[ -d $HOME/go/bin ] && export PATH+=:${HOME}/go/bin
-gem_bin="/var/home/linuxbrew/.linuxbrew/lib/ruby/gems/3.4.0/bin/"
-[ -d $gem_bin ] && export PATH+=:$gem_bin
+## PATH
+# Append a dir to PATH only if it exists and isn't there yet, so re-sourcing doesn't grow PATH
+path_add(){
+  [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]] && export PATH+=":$1"
+}
+# Go binary for boot.dev cli tool
+path_add "$HOME/go/bin"
+path_add "/var/home/linuxbrew/.linuxbrew/lib/ruby/gems/3.4.0/bin"
 ## CUSTOM PS1 ##
 ## Crafted with https://ezprompt.net/
 # for error code, called in PS1 line
