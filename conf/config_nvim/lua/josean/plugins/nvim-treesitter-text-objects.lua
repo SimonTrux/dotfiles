@@ -1,5 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
+  -- main is a rewrite for nvim-treesitter main, stay on master like nvim-treesitter
+  branch = "master",
   lazy = true,
   config = function()
     require("nvim-treesitter.configs").setup({
