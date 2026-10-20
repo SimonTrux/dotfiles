@@ -79,6 +79,12 @@ To remove one, run ":LspUninstallServer <server name>"
 
 Almost copied from Josean, with Mason v2: `lspconfig.lua` sets server options with `vim.lsp.config`, and mason-lspconfig enables every installed server (see `mason.lua`). To fall back to Mason 1.x, uncomment the pin in `lua/josean/plugins/lsp/workaround-mason.lua`, but v1 needs the old `setup_handlers` code back.
 
+The config needs neovim >= 0.11. When the distro package is older (debian 12, ubuntu 24.04), `setup.sh` downloads the official release (`scripts/install_nvim.sh`, version pinned there) to `/opt` and links it in `/usr/local/bin`. There is no official build for alpine (musl): on alpine < 3.22 the nvim config is skipped.
+
+### Cheat sheets
+
+Most useful shortcuts, with the mappings from these dotfiles, in `docs/`: [vim](docs/vim-cheat-sheet.md), [neovim](docs/neovim-cheat-sheet.md), [tmux](docs/tmux-cheat-sheet.md).
+
 ### File location for offline copy
 
 - lsp files are in ~/.local/share/vim-lsp-settings/
