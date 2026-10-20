@@ -18,7 +18,7 @@ ${txtrst}"
 
 presentation(){
   echo -e "${txtylw} This script will :
-  - Install required packages : $PKG_LIST
+  - Install required packages : vim tmux fzf bat zoxide (+ neovim and LSP deps if you want)
   - Make your ~/.bashrc source content of ~/.bashrc.d/ where there will be a
   - own_bashrc.sh with custom PS1 prompt and fzf preview using bat + zoxide + kubectl completion if installed
   - Symlink ~/.vimrc ~/.tmux.conf and more so you maintain them in the dotfiles dir instead.
@@ -36,9 +36,8 @@ Help() {
 	 echo "   and fzf to find and prewiew anything with C-t or cmd **TAB "
 	 echo "You need to have ~/.bashrc.d/ sourced in your ~/.bashrc for this config to work."
 	 echo
-   echo "Usage : ./setup.sh [-h -i -f]"
+   echo "Usage : ./setup.sh [-h -f]"
    echo "Options"
    echo "  -h  : Display this help "
-# echo "  -i  : Run install_packages.sh script beforehand."
    echo "  -f  : Force symlinking by overwrite present files. Use with caution."
  }

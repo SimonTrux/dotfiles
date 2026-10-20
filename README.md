@@ -22,7 +22,7 @@ Crafted on Fedora 41, tested on :
 - debian 12 (podman container)
 - KO Rhel / Rocky / Alma => No dnf source for fzf bat and zoxide.
 
-## Intall
+## Install
 
 ### Requirements
 
@@ -32,7 +32,7 @@ Crafted on Fedora 41, tested on :
 ### Clone this repo
 
 ```bash
-git clone https://www.github.com/SimonTrux/dotfiles
+git clone https://github.com/SimonTrux/dotfiles
 ```
 
 ### Run setup
@@ -54,8 +54,8 @@ Config files symlinked are :
 - .vimrc
 - .tmux.conf
 - .gitconfig
-- .bashrd.d/own_aliases
-- .bashrd.d/own_bashrc
+- .bashrc.d/own_aliases
+- .bashrc.d/own_bashrc
 
 ### Interesting aliases
 

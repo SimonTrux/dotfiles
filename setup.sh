@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Run from the repo dir so relative paths work wherever setup.sh is called from
+cd "$(dirname "$0")" || exit 1
+
 # import functions like echolor and hello and presentation
 for file in scripts/func/* ; do
   . $file 2> /dev/null
@@ -63,15 +66,16 @@ scripts/themes_install.sh $CONF_PATH
 info "NEOVIM CONFIG"
 ## NVIM CONF ##
 if command -v nvim &> /dev/null ; then
-  mkdir -p ~/.config/nvim
-  cp -r --update ${CONF_PATH}/config_nvim/* ~/.config/nvim/
-  echolor "Installing neovim custom config. Need to install neovim manually though."
+  mkdir -p ~/.config
+  # A real dir (from the old copy-based install) would block the symlink: back it up
+  if [ -d ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
+    mv ~/.config/nvim ~/.config/nvim.bak-$(date +%Y%m%d%H%M%S)
+    info "Existing ~/.config/nvim moved to a ~/.config/nvim.bak-* backup."
+  fi
+  run_color set_symlink ${CONF_PATH}/config_nvim ~/.config/nvim $OPTS
 fi
 
-# Sourcing the bashrc
-source ~/.bashrc
-echolor "Sourcing ~/.bashrc\n"
-
+info "Run \"source ~/.bashrc\" or open a new terminal to load the config.\n"
 info "You can live edit files in ./conf and reload with command  \"$ so\"    (source ~/.bashrc)\n"
 useful_aliases
 

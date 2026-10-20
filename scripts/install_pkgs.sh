@@ -42,18 +42,23 @@ done
 SKIP_INSTALL=true
 info "PKG_LIST = $PKG_LIST"
 for pkg in $PKG_LIST ; do
-  if ! command -v $pkg &> /dev/null && [ "$pkg" != "neovim" ] ; then
-    echo $pkg
-    info Some packages need installing.
-    SKIP_INSTALL=false
-    break
-  # edge case : neovim pkg / nvim binary
-  elif ! command -v nvim &> /dev/null && [ "$pkg" == "neovim" ] ; then
-    info Some packages need installing.
+  # Binaries that a package provides, when named differently from the package
+  case $pkg in
+    neovim) bins="nvim" ;;
+    bat)    bins="bat batcat" ;; # Debian/Ubuntu install bat as batcat
+    *)      bins=$pkg ;;
+  esac
+
+  found=false
+  for bin in $bins ; do
+    command -v $bin &> /dev/null && found=true
+  done
+
+  if ! $found ; then
+    info "Some packages need installing ($pkg is missing)."
     SKIP_INSTALL=false
     break
   fi
-
 done
 
 if $SKIP_INSTALL ; then
@@ -106,7 +111,7 @@ case $OS in
 esac
 
 # If brew is present, takes precedence.
-if command -v brew 2&>/dev/null ; then
+if command -v brew &>/dev/null ; then
   PKG_MGR="brew"
   SUDO_CMD=""
 fi
@@ -117,7 +122,7 @@ if [[ $EUID == 0 ]]
 fi
 
 info "Running $OS os | $ID."
-info "Installation planned with : $SUDO $PKG_MGR $INSTALL_CMD"
+info "Installation planned with : $SUDO_CMD $PKG_MGR $INSTALL_CMD"
 info "Package to be installed : $PKG_LIST"
 
 
