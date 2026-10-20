@@ -7,6 +7,7 @@
 	st = status
 	s = status --short
   unstage = restore --staged
+  ac = commit -a
 [user]
 	email = simon.truxillo@gmail.com
 	name = SimonTrux
@@ -16,3 +17,7 @@
 	gpgsign = false
 [core]
 	editor = vim
+[credential "https://github.com"]
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential

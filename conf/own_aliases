@@ -18,7 +18,6 @@ fi
 # Better cat if bat installed, better cd with zoxide
 exists bat && alias cat="bat"
 exists batcat && alias cat="batcat"
-exists zoxide && alias cd="z"
 
 # ls
 alias ls="ls --color=auto"
@@ -26,6 +25,8 @@ alias ll="ls -l --color=auto"
 alias la="ls -la"
 alias lh="ls -lahS"
 alias lt="ls -lat"
+
+exists eza && alias ls="eza --icons" ; alias ll="eza -l --git --icons" ; alias tree="eza --tree --icons"
 
 
 # Edit config files by name right away
@@ -37,3 +38,4 @@ alias aliases="$EDITOR ~/.bashrc.d/own_aliases"
 
 exists kubectl && alias k_get_ns_objects="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
 exists kubectl && alias kns='kubectl config set-context --current --namespace '
+#exists zoxide && alias cd="z"

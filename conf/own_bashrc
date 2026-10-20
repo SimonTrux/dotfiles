@@ -14,12 +14,11 @@ add_bash_completion(){
 
 ## BASH COMPLETIONS
 add_bash_completion asdf talosctl kubectl
-exists zoxide && eval "$(zoxide init bash)"
 exists brew   && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 ## EDITOR
-exists nvim && export EDITOR="nvim"
-
+exists nvim && export EDITOR="nvim" || export EDITOR="vi"
+exists nvim && export SYSTEMD_EDITOR="nvim" || export SYSTEMD_EDITOR="vi"
 ## KUBECTL
 if exists kubectl ; then
   alias k=kubectl
@@ -76,3 +75,5 @@ if exists fzf && fzf --bash > /dev/null 2>&1 ; then
   }
 fi
 
+# Need zoxide at the end of bash rc otherwise it raises warnings
+exists zoxide && eval "$(zoxide init bash)" && alias cd="z" # && export _ZO_DOCTOR=0
