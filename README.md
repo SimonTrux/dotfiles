@@ -77,7 +77,7 @@ To remove one, run ":LspUninstallServer <server name>"
 
 ### nvim config 
 
-Almost copied from Josean. Mason and mason-lspconfig are pinned to 1.x.x in `lua/josean/plugins/lsp/workaround-mason.lua`: `lspconfig.lua` uses `setup_handlers`, which mason-lspconfig v2 removed. Remove the pin only after migrating `lspconfig.lua` to the v2 API.
+Almost copied from Josean, with Mason v2: `lspconfig.lua` sets server options with `vim.lsp.config`, and mason-lspconfig enables every installed server (see `mason.lua`). To fall back to Mason 1.x, uncomment the pin in `lua/josean/plugins/lsp/workaround-mason.lua`, but v1 needs the old `setup_handlers` code back.
 
 ### File location for offline copy
 

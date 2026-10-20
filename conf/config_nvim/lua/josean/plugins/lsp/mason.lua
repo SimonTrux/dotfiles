@@ -19,7 +19,7 @@ return {
     local mason = require("mason")
 
     -- import mason-lspconfig
-    -- local mason_lspconfig = require("mason-lspconfig")
+    local mason_lspconfig = require("mason-lspconfig")
 
     -- local mason_tool_installer = require("mason-tool-installer")
 
@@ -31,6 +31,15 @@ return {
           package_pending = "➜",
           package_uninstalled = "✗",
         },
+      },
+    })
+
+    -- v2: calls vim.lsp.enable() on every installed server
+    mason_lspconfig.setup({
+      ensure_installed = {},
+      automatic_enable = {
+        -- stylua formats through conform (formatting.lua), not as an LSP
+        exclude = { "stylua" },
       },
     })
 

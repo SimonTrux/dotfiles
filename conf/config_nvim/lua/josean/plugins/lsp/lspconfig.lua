@@ -4,12 +4,18 @@ return {
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
-    { "folke/neodev.nvim", opts = {} },
+    -- completion and types for the Neovim Lua API in config files (replaces neodev.nvim)
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
+    },
   },
   config = function()
-    -- import mason_lspconfig plugin
-    local mason_lspconfig = require("mason-lspconfig")
-
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -39,9 +45,17 @@ return {
         opts.desc = "Show line diagnostics"
         keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
         opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        -- show the diagnostic in a float after jumping, like goto_prev/goto_next did
+        local function show_float(_, bufnr)
+          vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+        end
+        keymap.set("n", "[d", function()
+          vim.diagnostic.jump({ count = -1, on_jump = show_float })
+        end, opts)
         opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        keymap.set("n", "]d", function()
+          vim.diagnostic.jump({ count = 1, on_jump = show_float })
+        end, opts)
         opts.desc = "Show documentation for symbol under cursor"
         keymap.set("n", "K", vim.lsp.buf.hover, opts)
         opts.desc = "Restart LSP"
@@ -53,32 +67,30 @@ return {
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
     -- Diagnostic signs
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    local severity = vim.diagnostic.severity
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [severity.ERROR] = " ",
+          [severity.WARN] = " ",
+          [severity.HINT] = "󰠠 ",
+          [severity.INFO] = " ",
+        },
+      },
+    })
 
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        vim.lsp.config(server_name, {
-          capabilities = capabilities,
-        })
-        vim.lsp.enable(server_name)
-      end,
+    -- defaults for every server (mason-lspconfig v2 enables installed servers itself, see mason.lua)
+    vim.lsp.config("*", {
+      capabilities = capabilities,
+    })
 
-      ["lua_ls"] = function()
-        vim.lsp.config("lua_ls", {
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              diagnostics = { globals = { "vim" } },
-              completion = { callSnippet = "Replace" },
-            },
-          },
-        })
-        vim.lsp.enable("lua_ls")
-      end,
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          diagnostics = { globals = { "vim" } },
+          completion = { callSnippet = "Replace" },
+        },
+      },
     })
   end,
 }
