@@ -76,4 +76,5 @@ if exists fzf && fzf --bash > /dev/null 2>&1 ; then
 fi
 
 # Need zoxide at the end of bash rc otherwise it raises warnings
-exists zoxide && eval "$(zoxide init bash)" && alias cd="z" # && export _ZO_DOCTOR=0
+# Skipped under Claude Code: its shell snapshot keeps the cd alias but drops PROMPT_COMMAND, so zoxide's doctor warns on every cd
+[ -z "$CLAUDECODE" ] && exists zoxide && eval "$(zoxide init bash)" && alias cd="z"

@@ -26,7 +26,12 @@ alias la="ls -la"
 alias lh="ls -lahS"
 alias lt="ls -lat"
 
-exists eza && alias ls="eza --icons" ; alias ll="eza -l --git --icons" ; alias tree="eza --tree --icons"
+# Skipped under Claude Code: eza rejects GNU ls flags (ls -t, ls -1...)
+if [ -z "$CLAUDECODE" ] && exists eza ; then
+  alias ls="eza --icons"
+  alias ll="eza -l --git --icons"
+  alias tree="eza --tree --icons"
+fi
 
 
 # Edit config files by name right away
