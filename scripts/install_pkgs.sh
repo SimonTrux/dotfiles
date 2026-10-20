@@ -13,7 +13,7 @@ fi
 # Packages to be installed.
 PKG_LIST="grep vim tmux fzf bat zoxide"
 VIM_LSP_DEPS=" npm cargo"
-NEOVIM_PKG=" neovim make gcc"
+NEOVIM_PKG=" neovim make gcc git curl" # git: lazy.nvim clones plugins, curl: install_nvim.sh downloads
 
 # if "tput" is missing, add ncurses which provides it to PKG_LIST
 # This will trigger install in next block as "command -v ncuses" will fail.

@@ -65,7 +65,10 @@ scripts/themes_install.sh $CONF_PATH
 
 info "NEOVIM CONFIG"
 ## NVIM CONF ##
-if command -v nvim &> /dev/null ; then
+scripts/install_nvim.sh
+if command -v nvim &> /dev/null && ! nvim_recent_enough ; then
+  info "Skipping the neovim config: it needs neovim >= 0.11 and would fail to load.\n"
+elif command -v nvim &> /dev/null ; then
   mkdir -p ~/.config
   # A real dir (from the old copy-based install) would block the symlink: back it up
   if [ -d ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
