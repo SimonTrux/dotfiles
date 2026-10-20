@@ -1,23 +1,43 @@
+" Stop here on vim-tiny/vim-small builds without +eval (they can't run the rest)
+if !1 | finish | endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Trux .vimrc
-"		GENERAL SETTINGS
+"       GENERAL SETTINGS
 """"""""""""""""""""""""""""""""""""""""
 syntax on
 set number relativenumber
 set mouse=a
-set nopaste
 set noshowmode
 set showcmd
 set cursorline
 "set cursorcolumn
-set scrolloff=5		" keep x lines above / before cursor
-set showmatch		" show matching (){}[]
+set scrolloff=5     " keep x lines above / before cursor
+set showmatch       " show matching (){}[]
+set hidden          " switch buffers without saving first
+
 " Clipboard=unnamedplus : Yank to system clipboard with "+y
 " and Paste from it with "+p if vim --version got +clipboard or +xtermclipboard
 set clipboard=unnamedplus
+" Without +clipboard (Fedora's vim), send every yank to wl-copy / xclip instead
+if !has('clipboard')
+  if executable('wl-copy')
+    let s:copy_cmd = 'wl-copy'
+  elseif executable('xclip')
+    let s:copy_cmd = 'xclip -selection clipboard'
+  endif
+  if exists('s:copy_cmd')
+    " redirect output so the backgrounded copy process doesn't block system()
+    autocmd TextYankPost * if v:event.operator ==# 'y' |
+          \ call system(s:copy_cmd . ' >/dev/null 2>&1', getreg(v:event.regname)) | endif
+  endif
+endif
 
-" Search incrementally
+" Search incrementally, highlight matches, ignore case unless there's a capital
 set incsearch
+set hlsearch
+set ignorecase
+set smartcase
 " enable line wrapping
 set wrap
 " avoid wrapping a line in the middle of a word
@@ -25,7 +45,14 @@ set linebreak
 set splitbelow
 set splitright
 
-"	Indentation
+" Persistent undo, kept across sessions
+if !isdirectory(expand('~/.vim/undo'))
+  call mkdir(expand('~/.vim/undo'), 'p')
+endif
+set undodir=~/.vim/undo
+set undofile
+
+"   Indentation
 """"""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
 set autoindent
@@ -33,25 +60,25 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
-setlocal list 		"Necessary for next line
+set list
 set listchars=tab:\|\ ,trail:-,extends:>,precedes:<,nbsp:+
 "highlight TabLineSel ctermfg=blue ctermbg=black "WIP
 
-nnoremap nh :noh <CR>
+" Clear search highlight (not 'nh': it made every 'n' wait for a second key)
+nnoremap <silent> <space>h :noh<CR>
 
 " : WILDMENU : Enhance command line completion
 set wildmenu
 set wildmode=longest:full,list:full " Set completion behavior, see :help wildmode
 
-"	Brackets Auto Completion :
+"   Brackets Auto Completion :
+"   (no ' and " pairs: they doubled apostrophes and vimrc comments)
+"   <CR> between {} is handled with completion, in the plugins section
 """"""""""""""""""""""""""""""""""""""""
 inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
-inoremap ' ''<Left>
-inoremap " ""<Left>
 inoremap ` ``<Left>
-inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
 
 " Left side explorer by pressing CTRL or space + e
 """"""""""""""""""""""""""""""""""""""""
@@ -75,12 +102,10 @@ endfunction
 nnoremap <silent> <C-e> :call ToggleExplorer()<CR>
 "nnoremap <silent> <space>e :call ToggleExplorer()<CR>
 
-" Terminal toggle with CTRL or space + t
-map <C-t> :terminal <CR>
-"map <space>t :terminal <CR>
+" Terminal toggle with CTRL + t
+" (no <space> mappings in the terminal: typing "cat test" would run exit)
+nnoremap <C-t> :terminal <CR>
 tnoremap <C-t> exit<CR>
-tnoremap <space>t exit<CR>
-tnoremap <space><space> <C-w>w
 
 " Windows movements with space"
 nnoremap <space><right> <C-w><right>
@@ -99,42 +124,33 @@ tnoremap jk <CR>
 nnoremap <space>c :
 
 
-set termwinsize=10*0  ""row*colomn, will be size of window or at least that.Aazjhhj
+set termwinsize=10*0  " rows*columns: terminal window is at least 10 rows
 
 "Custom Explorer attributes
 """"""""""""""""""""""""""""""""""""""""
-let g:netrw_winsize = 20"Vex will be 25% window size
-let g:netrw_liststyle = 3"Tree style display
-let g:netrw_banner = 0"No Banner
+let g:netrw_winsize = 20 " Vex will be 20% window size
+let g:netrw_liststyle = 3 " Tree style display
+let g:netrw_banner = 0 " No Banner
 "Browse_split : 1 new hsp 2 new vsp 3 new tab 4 previous window
 let g:netrw_browse_split = 4
 let g:netrw_list_hide = '^\..*/$' "Hide .directories/
 let g:netrw_hide = 1
 
-
-" Automatically close the netrw explorer if it's the only window left
-"autocmd BufEnter * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
-
-"""" GOOD LINE FOR AUTO EXPLORER CLOSE WHEN LAST WINDOW
-" Close the netrw explorer if all its buffers are deleted
-"autocmd BufDelete * if (winnr("$") == 1 && exists("b:netrw_curdir")) | q | endif
-
-"		PLUGINS SECTION
+"       PLUGINS SECTION
 """"""""""""""""""""""""""""""""""""""""
-"	auto load / install pluging manager : vim-plug
+"   auto load / install pluging manager : vim-plug
 """"""""""""""""""""""""""""""""""""""""
-if !1 | finish | endif    " I still dont get that line....
 if empty(glob('~/.vim/autoload/plug.vim'))
-	echo "Installing VimPlug..."
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall
+    echo "Installing VimPlug..."
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
 endif
 
-"	Plugins List
-"	type :PlugInstall    once to install all plugins
+"   Plugins List
+"   type :PlugInstall    once to install all plugins
 """"""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-Plug 'drewtempelmeyer/palenight.vim'	"Palenight theme
+Plug 'drewtempelmeyer/palenight.vim'    "Palenight theme
 Plug 'itchyny/lightline.vim'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/vim-lsp'
@@ -155,31 +171,37 @@ nnoremap <silent> <space>e :FZF <CR>
 " Mappings for asyncomplete on tabs"
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
-"	Color Theme
+" Single <CR> mapping (two mappings overrode each other):
+" - completion menu open: accept it (asyncomplete if installed, else built-in <C-y>)
+" - cursor between {}: open the block on its own line
+" - otherwise: plain Enter
+function! s:SmartEnter()
+  if pumvisible()
+    return exists('*asyncomplete#close_popup') ? asyncomplete#close_popup() : "\<C-y>"
+  endif
+  " <Esc>O opens the middle line with the filetype's indent (<C-f> was typed as ^F in plain text)
+  return search('{\%#}', 'n') ? "\<CR>\<Esc>O" : "\<CR>"
+endfunction
+inoremap <expr> <CR> <SID>SmartEnter()
+
+"   Color Theme
 """"""""""""""""""""""""""""""""""""""""
-colorscheme palenight
 set background=dark
+" silent!: no error on a machine where the theme isn't installed yet
+silent! colorscheme palenight
 
 
-"	Status Line
+"   Status Line
 """"""""""""""""""""""""""""""""""""""""
 set laststatus=2
 let g:lightline = {
-	\ 'colorscheme': 'palenight',
-	\ 'active': {
-	\   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
-	\ }
-	\ }
+    \ 'colorscheme': 'palenight',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
+    \ }
+    \ }
 
 
-"abbreviation !! 
+"abbreviation !!
 abbr _sh #!/bin/bash
-
-"au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml "foldmethod=indent
-"""autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab}
-"autocmd FileType yaml setlocal ai et ts=2 sw=2 cuc cul
-
-"" to use fzf
-"set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
