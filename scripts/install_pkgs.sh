@@ -80,6 +80,8 @@ case $OS in
     case $ID in
       debian|ubuntu|mint)
         PKG_MGR="apt-get"
+        # Fresh systems have empty package lists
+        UPDATE_CMD="apt-get update"
         ;;
       fedora|rhel|centos|almalinux|rocky)
         PKG_MGR="yum"
@@ -113,6 +115,7 @@ esac
 # If brew is present, takes precedence.
 if command -v brew &>/dev/null ; then
   PKG_MGR="brew"
+  UPDATE_CMD=""
   SUDO_CMD=""
 fi
 
@@ -126,5 +129,6 @@ info "Installation planned with : $SUDO_CMD $PKG_MGR $INSTALL_CMD"
 info "Package to be installed : $PKG_LIST"
 
 
+[ -n "$UPDATE_CMD" ] && $SUDO_CMD $UPDATE_CMD
 $SUDO_CMD $PKG_MGR $INSTALL_CMD $PKG_LIST
 echolor "Packages installed."

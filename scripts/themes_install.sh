@@ -18,7 +18,7 @@ elif command -v batcat > /dev/null 2>&1
 	then BAT_BIN="batcat"
 fi
 
-if command -v $BAT_BIN > /dev/null 2>&1 ; then
+if [ -n "$BAT_BIN" ] ; then
   mkdir -p ~/.config/bat/themes
   cp -r --update -v ${CONF_PATH}/themes/bat_Catppuccin_Mocha.tmTheme ~/.config/bat/themes/bat_Catppuccin_Mocha.tmTheme
   $BAT_BIN cache --build > /dev/null
